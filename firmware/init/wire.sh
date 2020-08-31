@@ -61,7 +61,7 @@ case "$1" in
         echo "done"
 
         echo -n " - Init TM..."
-        nfp-macinit -0 /opt/netronome/share/nbi/sf1-2x40GE.json \
+        nfp-macinit -0 /opt/netronome/share/nbi/be-2x40GE.json \
                -p /opt/netronome/share/nbi/nfp_nbi_phy_tuning_AMDA0097R1.json \
                -m 0 &> $OUTPUT || exit 1
         nfp-tminit -N 0 -c /opt/netronome/share/nbi/nfp_nbi_tm_2x40GE.json &> $OUTPUT || exit 1

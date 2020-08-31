@@ -26,6 +26,8 @@ static struct ringbuffer_t ring_rx, ring_tx;
 #define SYMBOL_RX_STATS     "_rx_counters"
 #define SYMBOL_TX_STATS     "_tx_counters"
 
+#define PKT_STATS
+
 void* log_main(void* _ptr)
 {
     (void) _ptr;
@@ -79,7 +81,7 @@ void* stats_main(void* arg)
     {
         sleep(1);
 
-        fprintf(stderr, "[RX] %lu %lu %lu %lu %lu %lu %lu %lu\n",
+        printf("[RX] %lu %lu %lu %lu %lu %lu %lu %lu\n",
                     rx_counters[0],
                     rx_counters[1],
                     rx_counters[2],
@@ -89,7 +91,7 @@ void* stats_main(void* arg)
                     rx_counters[6],
                     rx_counters[7]);
 
-        fprintf(stderr, "[TX] %lu %lu %lu %lu %lu %lu %lu %lu\n",
+        printf("[TX] %lu %lu %lu %lu %lu %lu %lu %lu\n",
             tx_counters[0],
             tx_counters[1],
             tx_counters[2],
@@ -146,8 +148,8 @@ void* udp_worker(void* arg)
         ring_rx.tail = nn_readl(&meta->rx_tail);
         ring_tx.head = nn_readl(&meta->tx_head);
 
-        fprintf(stderr, "RING RX [%u ~ %u]\n", ring_rx.head, ring_rx.tail);
-        fprintf(stderr, "RING TX [%u ~ %u]\n", ring_tx.head, ring_tx.tail);
+//        fprintf(stderr, "RING RX [%u ~ %u]\n", ring_rx.head, ring_rx.tail);
+//        fprintf(stderr, "RING TX [%u ~ %u]\n", ring_tx.head, ring_tx.tail);
 
         if (!ringbuffer_empty(&ring_rx) && !ringbuffer_full(&ring_tx))
         {
@@ -212,7 +214,7 @@ int main(int argc, char* argv[])
 #endif
 
     nfp_cpp_dev_main(dev, cpp);
-    
+
     pthread_join(worker_thread, NULL);
     pthread_join(log_thread, NULL);
 #ifdef PKT_STATS

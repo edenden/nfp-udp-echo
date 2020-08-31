@@ -165,19 +165,25 @@ uint32_t newcfg)
     base = bar->index >> 3;
     slot = bar->index & 7;
 
+/*
     if (data->iomem.csr)
     {
         xbar = NFP_PCIE_CPP_BAR_PCIETOCPPEXPANSIONBAR(base, slot);
         rte_write32(newcfg, data->iomem.csr + xbar);
+*/
         /* Readback to ensure BAR is flushed */
+/*
         rte_read32(data->iomem.csr + xbar);
     }
     else
     {
+*/
         xbar = NFP_PCIE_CFG_BAR_PCIETOCPPEXPANSIONBAR(base, slot);
         if (rte_pci_write_config(data->dev, &newcfg, sizeof(newcfg), xbar) < 0)
             return -1;
+/*
     }
+*/
     bar->barcfg = newcfg;
 
     return 0;
